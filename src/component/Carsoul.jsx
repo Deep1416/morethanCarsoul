@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Carousel.css"; // Import your CSS file here
-import { FaRegArrowAltCircleRight } from "react-icons/fa";
-import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import song1 from "./../assets/Gulabi Sadi Ani Lali_320(PagalWorld.com.sb).mp3";
 import song2 from "./../assets/Janam Pe Janam_320(PagalWorld.com.sb).mp3";
 import song3 from "./../assets/Maan Meri Jaan_320(PagalWorld.com.sb).mp3";
@@ -87,12 +85,6 @@ const Carousel = () => {
     setStartIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  // const handlePrev = () => {
-  //   setStartIndex((prevIndex) =>
-  //     prevIndex === 0 ? images.length - 1 : prevIndex - 1
-  //   );
-  // };
-
   const displayedImages = [
     images[startIndex],
     images[(startIndex + 1) % images.length],
@@ -103,11 +95,16 @@ const Carousel = () => {
     <div className="relative h-screen flex items-center justify-center">
       <div className="absolute top-0 left-0 w-full h-full">
         <div className="bg-overlay"></div>
-        <img
-          src={images[startIndex]}
-          alt=""
-          className="w-full h-full object-cover bgImages"
-        />
+        {images.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt=""
+            className={`w-full h-full object-cover bgImages ${
+              index === startIndex ? "active" : ""
+            }`}
+          />
+        ))}
       </div>
       <div className="relative z-10 flex items-center justify-center gap-32">
         <div className="w-64 h-72  bg-transparent p-4 text-white bg-gray-400 rounded-md">
@@ -115,10 +112,6 @@ const Carousel = () => {
           <p className="text-[12px]">{thoughts[startIndex].des}</p>
         </div>
         <div className="flex items-center gap-5">
-          {/* <div className="text-red-400 absolute z-50" onClick={handlePrev}>
-          < FaRegArrowAltCircleLeft className="text-3xl" />
-          </div> */}
-
           {displayedImages.map((src, index) => (
             <div
               key={index}
@@ -128,10 +121,6 @@ const Carousel = () => {
               <img src={src} alt="" className="w-full h-full rounded-md" />
             </div>
           ))}
-
-          {/* <div className="text-red-400 absolute right-0" onClick={handleNext}>
-            < FaRegArrowAltCircleRight className="text-3xl" />
-          </div> */}
         </div>
       </div>
       <audio ref={audioRef} autoPlay />
