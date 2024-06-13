@@ -72,6 +72,7 @@ const Carousel = () => {
       </div>
       <div className="relative z-10 flex items-center justify-center gap-40">
         <div className="w-64 h-80 border border-black bg-white p-4">
+            hello
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam
           quas nobis voluptates aut iure quod sed explicabo distinctio
           veritatis repellendus, dolore labore corporis, voluptate laborum
