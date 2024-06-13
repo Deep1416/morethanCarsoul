@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .carsoulProp{
+    transform: skew(10deg);
+} */
+
+.bgImages{
+    background-image: rgba(0 ,0,0,0.6);
+}
