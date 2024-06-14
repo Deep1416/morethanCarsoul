@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Carousel.css"; // Import your CSS file here
 import song1 from "./../assets/Gulabi Sadi Ani Lali_320(PagalWorld.com.sb).mp3";
 import song2 from "./../assets/Janam Pe Janam_320(PagalWorld.com.sb).mp3";
@@ -51,35 +51,32 @@ const songs = [song1, song2, song3, song4, song5, song6];
 
 const Carousel = () => {
   const [startIndex, setStartIndex] = useState(0);
-  const audioRef = useRef(new Audio());
-  const [audioLoaded, setAudioLoaded] = useState(false);
-
+  const [audio, setAudio] = useState(new Audio(songs[0]));
+  const [playing, setPlaying] = useState(false);
+  const toggle = () => setPlaying(!playing);
   useEffect(() => {
-    audioRef.current.addEventListener("canplaythrough", () => {
-      setAudioLoaded(true);
-    });
-
+    audio.addEventListener("ended", () => setPlaying(false));
     return () => {
-      audioRef.current.removeEventListener("canplaythrough", () => {});
+      audio.removeEventListener("ended", () => setPlaying(false));
     };
-  }, []);
+  }, [audio]);
 
   useEffect(() => {
-    if (audioLoaded) {
-      audioRef.current.pause();
-      audioRef.current.src = songs[startIndex];
-      audioRef.current.load();
-      audioRef.current.play();
+    if (playing) {
+      audio.play();
+    } else {
+      audio.pause();
     }
-  }, [startIndex, audioLoaded]);
+  }, [playing, audio]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setStartIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, []);
+    audio.pause();
+    const newAudio = new Audio(songs[startIndex]);
+    setAudio(newAudio);
+    if (playing) {
+      newAudio.play();
+    }
+  }, [startIndex]);
 
   const handleNext = () => {
     setStartIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -107,9 +104,11 @@ const Carousel = () => {
         ))}
       </div>
       <div className="relative z-10 flex items-center justify-center gap-32">
-        <div className="w-64 h-72  bg-transparent p-4 text-white bg-gray-400 rounded-md">
-          <h2 className="text-xl capitalize mb-4">"{thoughts[startIndex].shayari}"</h2>
-          <p className="text-[12px]">{thoughts[startIndex].des}</p>
+        <div className="w-64 h-72 bg-transparent p-4 text-white backdrop-blur-sm shadow-2xl shadow-black rounded-md">
+          <h2 className="text-2xl font-bold capitalize mb-4">
+            "{thoughts[startIndex].shayari}"
+          </h2>
+          <p className="text-base">{thoughts[startIndex].des}</p>
         </div>
         <div className="flex items-center gap-5">
           {displayedImages.map((src, index) => (
@@ -123,7 +122,9 @@ const Carousel = () => {
           ))}
         </div>
       </div>
-      <audio ref={audioRef} autoPlay />
+      <button className="z-50 bg-black text-white p-2 rounded" onClick={toggle}>
+        {playing ? "Pause" : "Play"}
+      </button>
     </div>
   );
 };
