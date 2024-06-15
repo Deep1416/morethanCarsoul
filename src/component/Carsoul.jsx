@@ -69,14 +69,14 @@ const Carousel = () => {
           />
         ))}
       </div>
-      <div className="relative z-10 flex items-center justify-center gap-32">
+      <div className="relative z-10 flex items-center justify-center gap-32 ">
         <div className="w-64 h-72 bg-transparent p-4 text-white backdrop-blur-sm shadow-2xl shadow-black rounded-md">
           <h2 className="text-2xl font-bold capitalize mb-4">
             "{thoughts[startIndex].shayari}"
           </h2>
           <p className="text-base">{thoughts[startIndex].des}</p>
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 ">
           {displayedImages.map((src, index) => (
             <div
               key={startIndex + index} // Use unique keys
